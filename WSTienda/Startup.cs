@@ -15,6 +15,7 @@ namespace WSTienda
 {
     public class Startup
     {
+        readonly string MyCors = "MyCors";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +27,11 @@ namespace WSTienda
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyCors, builder => builder.WithOrigins("*"));
+            }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +46,8 @@ namespace WSTienda
 
             app.UseRouting();
 
+            app.UseCors(MyCors);
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
