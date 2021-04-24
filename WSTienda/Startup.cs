@@ -29,7 +29,7 @@ namespace WSTienda
             services.AddControllers();
             services.AddCors(options =>
             {
-                options.AddPolicy(MyCors, builder => builder.WithOrigins("*"));
+                options.AddPolicy(MyCors, builder => builder.WithOrigins("*").WithHeaders("*"));
             }
             );
         }

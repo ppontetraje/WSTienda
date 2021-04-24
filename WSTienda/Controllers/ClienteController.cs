@@ -23,7 +23,7 @@ namespace WSTienda.Controllers
             {
                 using (BDTiendaContext bd = new BDTiendaContext())
                 {
-                    var lst = bd.Cliente.ToList();
+                    var lst = bd.Cliente.OrderByDescending(d=> d.IdCliente).ToList();
                     oRespuesta.Success = true;
                     oRespuesta.Data = lst;
                 }
