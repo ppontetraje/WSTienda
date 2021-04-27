@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using WSTienda.Features.Customer.Queries.GetCustomerList;
+using WSTienda.DTOs;
 using WSTienda.Models;
 using WSTienda.Responses;
 
@@ -35,7 +32,7 @@ namespace WSTienda.Controllers
             return Ok(oRespuesta);
         }
         [HttpPost]
-        public IActionResult Add(CustomerListVm oCustomerVm)
+        public IActionResult Add(CustomerListDTO oCustomerVm)
         {
             var oRespuesta = new BaseResponse();
             try
@@ -62,7 +59,7 @@ namespace WSTienda.Controllers
             return Ok(oRespuesta);
         }
         [HttpPut]
-        public IActionResult Update(CustomerListVm oCustomerVm)
+        public IActionResult Update(CustomerListDTO oCustomerVm)
         {
             var oRespuesta = new BaseResponse();
             try
@@ -98,7 +95,7 @@ namespace WSTienda.Controllers
                 {
                     Cliente oCustomer = db.Cliente.Find(id);
                     db.Remove(oCustomer);
-                    //db.SaveChanges();
+                    db.SaveChanges();
                     oRespuesta.Success = true;
                 }
 

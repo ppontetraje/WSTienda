@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Customer\Commands\" />
+    <Folder Include="Features\Customer\Queries\GetCustomerList\" />
   </ItemGroup>
 
 

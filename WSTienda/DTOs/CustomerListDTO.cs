@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WSTienda.Features.Customer.Queries.GetCustomerList
+namespace WSTienda.DTOs
 {
-    public class CustomerListVm
+    public class CustomerListDTO
     {
         public long IdCliente { get; set; }
         public string Nombre { get; set; }

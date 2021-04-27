@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -246,23 +244,19 @@ namespace WSTienda.Models
                 entity.HasIndex(e => e.IdTipoUsuario)
                     .HasName("IX_Relationship1");
 
-                entity.Property(e => e.Activo)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.Activo).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.ApellidoMaterno)
-                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ApellidoPaterno)
-                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Contrasena)
                     .IsRequired()
-                    .HasMaxLength(200)
+                    .HasMaxLength(256)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Direccion)
@@ -270,7 +264,6 @@ namespace WSTienda.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Dni)
-                    .IsRequired()
                     .HasMaxLength(8)
                     .IsUnicode(false);
 
@@ -281,7 +274,6 @@ namespace WSTienda.Models
                     .HasComment("Ingreso al sistema.");
 
                 entity.Property(e => e.Nombre)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
