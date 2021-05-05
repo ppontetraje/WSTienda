@@ -23,26 +23,38 @@ namespace WSTienda.Controllers
             {
                 using(BDTiendaContext db = new BDTiendaContext())
                 {
-                    var cabeceraDetalle = new CabeceraDetalle();
-                    cabeceraDetalle.Total = requestDTO.Total;
-                    cabeceraDetalle.IdCliente = requestDTO.IdCliente;
-                    cabeceraDetalle.Fecha = DateTime.Now;
-                    cabeceraDetalle.IdOrganizacion = requestDTO.IdOrganizacion;
+                    using (var transaction = db.Database.BeginTransaction()) {
+                        try
+                        {
+                            var cabeceraDetalle = new CabeceraDetalle();
+                            cabeceraDetalle.Total = requestDTO.SaleDetails.Sum(d => d.Cantidad * d.PrecioActual);
+                            cabeceraDetalle.IdCliente = requestDTO.IdCliente;
+                            cabeceraDetalle.Fecha = DateTime.Now;
+                            cabeceraDetalle.IdOrganizacion = requestDTO.IdOrganizacion;
 
-                    db.CabeceraDetalle.Add(cabeceraDetalle);
-                    db.SaveChanges();
-                    foreach(var saleDetails in requestDTO.SaleDetails)
-                    {
-                        Detalle detalle = new Detalle();
-                        detalle.Cantidad = saleDetails.Cantidad;
-                        detalle.PrecioActual = saleDetails.PrecioActual;
-                        detalle.PrecioTotal = saleDetails.PrecioTotal;
-                        detalle.IdProducto = saleDetails.IdProducto;
-                        detalle.IdCabeceraDetalle = cabeceraDetalle.IdCabeceraDetalle;
-                        db.Detalle.Add(detalle);
-                        db.SaveChanges();
+                            db.CabeceraDetalle.Add(cabeceraDetalle);
+                            db.SaveChanges();
+
+                            foreach (var saleDetails in requestDTO.SaleDetails)
+                            {
+                                Detalle detalle = new Detalle();
+                                detalle.Cantidad = saleDetails.Cantidad;
+                                detalle.PrecioActual = saleDetails.PrecioActual;
+                                detalle.PrecioTotal = cabeceraDetalle.Total;
+                                detalle.IdProducto = saleDetails.IdProducto;
+                                detalle.IdCabeceraDetalle = cabeceraDetalle.IdCabeceraDetalle;
+                                db.Detalle.Add(detalle);
+                                db.SaveChanges();
+                            }
+
+                            transaction.Commit();
+                            response.Success = true;
+                        }
+                        catch (Exception)
+                        {
+                            transaction.Rollback();
+                        }
                     }
-                    response.Success = true;
                 }
             }
             catch (Exception ex)
