@@ -9,6 +9,7 @@ using System.Text;
 using WSTienda.Interfaces;
 using WSTienda.Models.Common;
 using WSTienda.Services;
+using WSTienda.Tools;
 
 namespace WSTienda
 {
@@ -25,12 +26,17 @@ namespace WSTienda
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyCors, builder => builder.WithOrigins("*").WithHeaders("*").WithMethods("*"));
             }
             );
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new LongToStringConverter());
+                    options.JsonSerializerOptions.Converters.Add(new DecimalToStringConverter());
+                });
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
